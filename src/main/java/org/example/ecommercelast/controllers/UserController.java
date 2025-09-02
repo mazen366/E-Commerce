@@ -3,6 +3,7 @@ package org.example.ecommercelast.controllers;
 import org.example.ecommercelast.models.Category;
 import org.example.ecommercelast.models.User;
 import org.example.ecommercelast.repos.UserRepo;
+import org.example.ecommercelast.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,28 +11,27 @@ import java.util.List;
 @RestController
 @RequestMapping("users")
 public class UserController {
+    private final UserService userService;
 
-    private final UserRepo userRepo;
-
-    public UserController(UserRepo userRepo) {
-        this.userRepo = userRepo;
+    public  UserController(UserService userService) {
+        this.userService = userService;
     }
     @GetMapping
     public List<User> findAll()
     {
-        return userRepo.findAll();
+        return userService.findAll();
     }
 
     @GetMapping("{id}")
     public User findById(@PathVariable Integer id)
     {
-        return userRepo.findById(id).orElseThrow(() -> new RuntimeException(id + " not found"));
+        return userService.findById(id);
     }
 
     @PostMapping
-    public User create(@RequestBody User newUser)
+    public User add(@RequestBody User newUser)
     {
-        return userRepo.save(newUser);
+        return userService.save(newUser);
     }
 }
 
