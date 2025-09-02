@@ -4,7 +4,7 @@ GET https://examples.http-client.intellij.net/get
 
 ###
 
-GET http://localhost:8080/users
+GET http://localhost:8080/users/1/carts
 
 ###
 POST http://localhost:8080/users
@@ -18,3 +18,5 @@ Content-Type: application/json
 {
   "id": 2
 }
+###
+GET http://localhost:8080/carts/all

@@ -2,6 +2,7 @@ package org.example.ecommercelast.controllers;
 
 import org.example.ecommercelast.models.Order;
 import org.example.ecommercelast.repos.OrderRepo;
+import org.example.ecommercelast.services.OrderService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,25 +10,25 @@ import java.util.List;
 @RestController
 @RequestMapping("orders")
 public class OrderController {
-    private final OrderRepo orderRepo;
-    public OrderController(OrderRepo orderRepo) {
-        this.orderRepo = orderRepo;
+    private final OrderService orderService;
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
     }
     @GetMapping
     public List<Order> getAllOrders()
     {
-        return orderRepo.findAll();
+        return orderService.findAll();
     }
 
     @GetMapping("{id}")
     public Order getOrderById(@PathVariable Integer id)
     {
-        return  orderRepo.findById(id).orElseThrow(() -> new RuntimeException("Order Not Found"));
+        return  orderService.findById(id);
     }
 
     @PostMapping
     public Order createOrder(@RequestBody Order order)
     {
-        return orderRepo.save(order);
+        return orderService.save(order);
     }
 }

@@ -2,6 +2,7 @@ package org.example.ecommercelast.controllers;
 
 import org.example.ecommercelast.models.Review;
 import org.example.ecommercelast.repos.ReviewRepo;
+import org.example.ecommercelast.services.ReviewService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,26 +10,25 @@ import java.util.List;
 @RestController
 @RequestMapping("reviews")
 public class ReviewController {
-    private final ReviewRepo reviewRepo;
-    public ReviewController(ReviewRepo reviewRepo) {
-        this.reviewRepo = reviewRepo;
+    private final ReviewService reviewService;
+    public ReviewController(ReviewService reviewService) {
+        this.reviewService = reviewService;
     }
-
     @GetMapping
     public List<Review> findAll()
     {
-        return reviewRepo.findAll();
+        return reviewService.findAll();
     }
 
     @GetMapping("{id}")
     public Review findOne(@PathVariable Integer id)
     {
-        return reviewRepo.findById(id).orElseThrow(() -> new RuntimeException(id + " not found"));
+        return reviewService.findById(id);
     }
 
     @PostMapping
     public Review save(@RequestBody Review review)
     {
-        return reviewRepo.save(review);
+        return reviewService.save(review);
     }
 }
