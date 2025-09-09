@@ -1,5 +1,6 @@
 package org.example.ecommercelast.controllers;
 
+import jdk.jshell.spi.ExecutionControl;
 import org.example.ecommercelast.errorresponses.UserErrorResponse;
 import org.example.ecommercelast.exceptions.UserNotFoundException;
 import org.example.ecommercelast.models.Cart;
@@ -53,6 +54,16 @@ public class UserController {
         userErrorResponse.setMessage(ex.getMessage());
         userErrorResponse.setTimeStamp(System.currentTimeMillis());
         return new ResponseEntity<>(userErrorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<UserErrorResponse> handlException(Exception ex)
+    {
+        UserErrorResponse userErrorResponse = new UserErrorResponse();
+        userErrorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
+        userErrorResponse.setMessage(ex.getMessage());
+        userErrorResponse.setTimeStamp(System.currentTimeMillis());
+        return new ResponseEntity<>(userErrorResponse, HttpStatus.BAD_REQUEST);
     }
 
 }
