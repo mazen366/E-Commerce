@@ -1,12 +1,17 @@
 package org.example.ecommercelast.services;
 
+import org.example.ecommercelast.errorresponses.UserErrorResponse;
+import org.example.ecommercelast.exceptions.UserNotFoundException;
 import org.example.ecommercelast.models.Cart;
 import org.example.ecommercelast.models.Order;
 import org.example.ecommercelast.models.User;
 import org.example.ecommercelast.repos.CartRepo;
 import org.example.ecommercelast.repos.OrderRepo;
 import org.example.ecommercelast.repos.UserRepo;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +38,10 @@ public class UserService {
     }
 
     public User findById(Integer id) {
-        return userRepo.findById(id).orElse(null);
+        User user = userRepo.findById(id).orElse(null);
+        if(user == null)
+            throw new UserNotFoundException("User " +  id + " not found");
+        return user;
     }
 
     public List<Order> getOrders(Integer id) {
@@ -57,4 +65,7 @@ public class UserService {
         }
         return ret;
     }
+
+
+
 }

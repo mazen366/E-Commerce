@@ -1,11 +1,15 @@
 package org.example.ecommercelast.controllers;
 
+import org.example.ecommercelast.errorresponses.UserErrorResponse;
+import org.example.ecommercelast.exceptions.UserNotFoundException;
 import org.example.ecommercelast.models.Cart;
 import org.example.ecommercelast.models.Category;
 import org.example.ecommercelast.models.Order;
 import org.example.ecommercelast.models.User;
 import org.example.ecommercelast.repos.UserRepo;
 import org.example.ecommercelast.services.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,5 +43,17 @@ public class UserController {
     {
         return userService.save(newUser);
     }
+
+
+    @ExceptionHandler
+    public ResponseEntity<UserErrorResponse> handleUserNotFoundException(UserNotFoundException ex)
+    {
+        UserErrorResponse userErrorResponse = new UserErrorResponse();
+        userErrorResponse.setStatus(HttpStatus.NOT_FOUND.value());
+        userErrorResponse.setMessage(ex.getMessage());
+        userErrorResponse.setTimeStamp(System.currentTimeMillis());
+        return new ResponseEntity<>(userErrorResponse, HttpStatus.NOT_FOUND);
+    }
+
 }
 

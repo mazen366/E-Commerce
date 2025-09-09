@@ -4,7 +4,6 @@ import org.example.ecommercelast.models.Category;
 import org.example.ecommercelast.repos.CategoryRepo;
 import org.springframework.stereotype.Service;
 
-import java.lang.ScopedValue;
 import java.util.List;
 
 @Service
